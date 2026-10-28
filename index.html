@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>FloodWatch | Urban Flood Intelligence</title>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="brand">🌊 FloodWatch</div>
+    <div class="header-label">URBAN FLOOD INTELLIGENCE</div>
+</header>
+
+<section class="hero">
+    <div>
+        <span class="eyebrow">GEOGRAPHIC INFORMATION SYSTEM</span>
+
+        <h1>Urban Flood<br><span>Monitoring</span></h1>
+
+        <p>
+            Explore spatial flood observations, monitor reported severity
+            and submit new reports through an interactive GIS dashboard.
+        </p>
+
+        <a href="#dashboard" class="hero-button">
+            Explore Dashboard ↓
+        </a>
+    </div>
+
+    <div class="hero-icon">🌧️</div>
+</section>
+
+<main class="container" id="dashboard">
+
+    <section class="stats">
+        <article class="stat-card">
+            <p>Total Reports</p>
+            <h2 id="total">—</h2>
+        </article>
+
+        <article class="stat-card">
+            <p>Active Reports</p>
+            <h2 id="active">—</h2>
+        </article>
+
+        <article class="stat-card">
+            <p>High Severity</p>
+            <h2 id="high">—</h2>
+        </article>
+
+        <article class="stat-card">
+            <p>Resolved Reports</p>
+            <h2 id="resolved">—</h2>
+        </article>
+    </section>
+
+    <section class="panel">
+
+        <div class="section-heading">
+            <div>
+                <h2>Spatial Distribution</h2>
+                <p>Interactive map of recorded observations</p>
+            </div>
+
+            <button id="refreshBtn" class="secondary">
+                ↻ Refresh
+            </button>
+        </div>
+
+        <div class="filters">
+
+            <input
+                type="search"
+                id="search"
+                placeholder="Search location or description"
+            >
+
+            <select id="severity">
+                <option value="">All Severities</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+            </select>
+
+            <select id="status">
+                <option value="">All Statuses</option>
+                <option value="Active">Active</option>
+                <option value="Resolved">Resolved</option>
+            </select>
+
+            <button id="searchBtn">Apply Filters</button>
+
+        </div>
+
+        <div id="map"></div>
+
+        <div class="legend">
+            <span><i class="dot low"></i> Low</span>
+            <span><i class="dot medium"></i> Medium</span>
+            <span><i class="dot high"></i> High</span>
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="section-heading">
+            <div>
+                <h2>Submit Observation</h2>
+                <p>Add a new report to PostgreSQL/PostGIS</p>
+            </div>
+        </div>
+
+        <form id="reportForm">
+
+            <div class="form-grid">
+
+                <label>
+                    Location Name
+                    <input
+                        name="location_name"
+                        required
+                        maxlength="150"
+                        placeholder="e.g. F-6 Islamabad"
+                    >
+                </label>
+
+                <label>
+                    Severity
+                    <select name="severity" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </label>
+
+                <label>
+                    Latitude
+                    <input
+                        name="latitude"
+                        type="number"
+                        min="-90"
+                        max="90"
+                        step="any"
+                        required
+                        placeholder="33.6844"
+                    >
+                </label>
+
+                <label>
+                    Longitude
+                    <input
+                        name="longitude"
+                        type="number"
+                        min="-180"
+                        max="180"
+                        step="any"
+                        required
+                        placeholder="73.0479"
+                    >
+                </label>
+
+                <label>
+                    Status
+                    <select name="status">
+                        <option value="Active">Active</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </label>
+
+                <label class="full">
+                    Description
+                    <textarea
+                        name="description"
+                        required
+                        maxlength="3000"
+                        placeholder="Describe the observation..."
+                    ></textarea>
+                </label>
+
+            </div>
+
+            <button type="submit">＋ Save Observation</button>
+
+            <p id="message" role="status"></p>
+
+        </form>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="section-heading">
+            <div>
+                <h2>Flood Reports</h2>
+                <p>Reports retrieved from the spatial database</p>
+            </div>
+        </div>
+
+        <div id="reports" class="report-grid"></div>
+
+    </section>
+
+</main>
+
+<footer>
+    <strong>FloodWatch WebGIS</strong>
+
+    <p>
+        Academic project using Leaflet, Node.js, Express,
+        PostgreSQL and PostGIS.
+    </p>
+
+    <p>
+        Initial records are synthetic classroom examples,
+        not verified official flood incidents.
+    </p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
